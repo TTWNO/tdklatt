@@ -40,6 +40,7 @@ Examples:
 try:
     import math
     import numpy as np
+    import wave
     from scipy.signal import resample_poly
     from scipy.io.wavfile import write
     import simpleaudio as sa
@@ -305,7 +306,12 @@ class KlattSynth(object):
         Plays output waveform.
         """
         y = self._get_int16at16K()
-        sa.play_buffer(y, num_channels=1, bytes_per_sample=2, sample_rate=16_000)
+        f = wave.open("test.wav", 'wb')
+        f.setsampwidth(2)
+        f.setframerate(16_000)
+        f.setnchannels(1)
+        f.writeframes(y)
+        #sa.play_buffer(y, num_channels=1, bytes_per_sample=2, sample_rate=16_000)
 
     def save(self, path):
         """
